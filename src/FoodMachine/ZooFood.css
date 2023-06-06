@@ -1,0 +1,102 @@
+
+.food-machine {
+  position: relative;
+  width: 200px;
+  height: 250px;
+  background-color: #d9d9d9;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.food-slot {
+  width: 150px;
+  height: 50px;
+  text-align: center;
+  background-color: #fff;
+  border: 2px solid #999;
+  border-radius: 10px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.food {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-name: foodAnimation;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  z-index: 3;
+  display: none;
+}
+
+@keyframes foodAnimation {
+  0% {
+    top: -50px;
+    background-color: #ff0000;
+  }
+  50% {
+    top: 50%;
+    background-color: #00ff00;
+  }
+  100% {
+    top: 100%;
+    background-color: #0000ff;
+  }
+}
+
+.smiling-face {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+  background-color: #ffcc00;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 80px;
+  font-weight: bold;
+  color: #000;
+}
+
+button.smiling-face {
+  border: none;
+  background-color: transparent;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+button.flashing-div {
+  animation: flashing 3s linear infinite;
+}
+
+@keyframes flashing {
+  0% {
+    background-color: rgb(234, 255, 0);
+  }
+  50% {
+    background-color: white;
+  }
+  100% {
+    background-color: rgb(234, 255, 0);
+  }
+}
+
+button span.paw-symbol {
+  font-size: 70px;
+  position: absolute;
+  top: 20px; /* Adjust this value to position the symbol */
+}
+
