@@ -36,6 +36,19 @@
 		"type": "constructor"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_animalId",
+				"type": "uint256"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "animalCount",
 		"outputs": [
@@ -67,6 +80,11 @@
 				"internalType": "uint256",
 				"name": "totalDonations",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "withdrawnAmount",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -80,7 +98,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "getDonation",
+		"name": "getWithdrawnAmount",
 		"outputs": [
 			{
 				"internalType": "uint256",

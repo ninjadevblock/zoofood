@@ -1,43 +1,60 @@
-import React, { useState } from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
+import React,{useEffect,useState,useMemo} from 'react';
+import {
+  Provider,createClient,configureChains, useConnect, useDisconnect,
+  useAccount,
+  usePrepareContractWrite,
+  useNetwork,useContractRead,useContractWrite,useWaitForTransaction, useSwitchNetwork,WagmiConfig
+} from 'wagmi'
+import ABI from "../Contracts/MyToken.json";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
+import { ethers } from 'ethers';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import {
-  useAccount,
-  useNetwork
-} from 'wagmi'
-import Navbar from './Profile/Navbar';
-import ZooFood from './FoodMachine/ZooFood';
+import Navbar from '../Profile/Navbar';
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import Typography from '@mui/material/Typography';
-import image from '../src/assets/image.jpg'
-function App(props) {
-  const { isConnected } = useAccount();
-  const { chain } = useNetwork();
-  const [numberOfTreatsToDonate, setNumberOfTreatsToDonate] = useState('');
+import image from '../assets/image.jpg'
+import TextField from '@mui/material/TextField';
+import { Button } from '@mui/material';
+function Money(props) {
+
+    const { isConnected } = useAccount();
+    const { chain } = useNetwork();
   const [animal, setAnimal] = useState(0);
  const handleChangeAnimal = (event) => {
     setAnimal(event.target.value);
   };
 
-  const handleTreatsChange = (event) => {
-    const { value } = event.target;
-    if (Number.isInteger(Number(value)) && value > 0) {
-      setNumberOfTreatsToDonate(value);
-    }
-  };
-
-
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
   
+  // Contract instance
+  const contract = new ethers.Contract("0x4Eb41a0F9d2Dc019724619f79D0D8A923e8b285c",ABI, signer);
+
+  const donate = async (e) => {
+    e.preventDefault();
+    try{
+    alert("Please wait");
+    const donation = await contract.withdraw(animal);
+    console.log(donation.toString());
+    }
+    catch(e){
+      alert("Try again");
+    }
+  }
+
   return (
     <React.Fragment>
       <Navbar component="nav" isConnected={isConnected} chains={props.chains}></Navbar>
@@ -72,20 +89,6 @@ function App(props) {
               <MenuItem value={3}>Elephant</MenuItem>
             </Select>
             </FormControl>
-            <TextField
-                      margin="normal"
-                      fullWidth
-                      id="numberOfTreatsToDonate"
-                      label="Number of treats to donate"
-                      InputLabelProps={{ shrink: true }}
-                      type="number"
-                      name="numberOfTreatsToDonate"
-                      value={numberOfTreatsToDonate}
-                      onChange={handleTreatsChange}
-                      inputProps={{ min: 1 }}
-                      sx={{ mt:5}}
-                    />
-
              </Grid>
                 </main>
               </Container>
@@ -93,9 +96,7 @@ function App(props) {
         props.chains.find((networkValue) => chain.id === networkValue.id) ? (
           isConnected ? (
             <React.Fragment>
-                          <Grid container spacing={0} justifyContent="center" sx={{ mt: 2 }}>
-                    <ZooFood justifyContent="center"  numberOfTreatsToDonate={numberOfTreatsToDonate} animal={animal} chain={chain.id} />
-                  </Grid>
+            <Button variant="contained" sx={{ mt: 3 ,mx:7}} onClick={donate} >Withdraw money</Button>
             </React.Fragment>
           ) : (
             <React.Fragment>
@@ -122,4 +123,4 @@ function App(props) {
   );
 }
 
-export default App;
+export default Money;

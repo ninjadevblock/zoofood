@@ -12,6 +12,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
+import Money from "./FoodMachine/Money";
 const { chains, provider } = configureChains(
   [ calibrationTestnet],
   [
@@ -39,7 +40,7 @@ root.render(
     <Router>
         <Routes>
         <Route exact path='/' element={ <App chains={chains} />}></Route>
-        <Route exact path='/management' element={ <App chains={chains} />}></Route>
+        <Route exact path='/management' element={ <Money chains={chains} />}></Route>
         </Routes>
        </Router>
     </WagmiConfig>
